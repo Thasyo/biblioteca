@@ -6,20 +6,41 @@
     class AlunoController {
 
         public static function cadastro(): void {
-            $aluno = new Aluno();
-            $aluno->setNome("Thasyo");
-            $aluno->setRA(12345);
-            $aluno->setCurso("Engenharia de Software");
-            $aluno->save();
 
-            echo 'Aluno inserido!';
+            if($_SERVER['REQUEST_METHOD'] == 'POST'){
+                $aluno = new Aluno();
+                $aluno->setId(!empty($_POST['id']) ? $_POST['id'] : null);
+                $aluno->setNome($_POST['nome']);
+                $aluno->setRA($_POST['ra']);
+                $aluno->setCurso($_POST['curso']);
+                $aluno->save();
+
+                header("Location: /alunos"); //redireciona para a rota /aluno
+
+            }else{
+                $model = new Aluno();
+
+                if(isset($_GET['id'])){
+                    $model = $model->getById((int) $_GET['id']);
+                }
+
+                include VIEWS . '/Aluno/form_aluno.php';
+            }
         }
         
         public static function listar(): void {
-            echo "Listagem de alunos";
+            //echo "Listagem de alunos";
             $aluno = new Aluno();
             $lista = $aluno->getAll();
-            var_dump($lista);
+            include VIEWS . '/Aluno/lista_aluno.php';
         }
+
+        public static function deletar(): void {
+            $aluno = new Aluno();
+
+            $aluno->delete( (int) $_GET['id']);
+
+            header('Location: /alunos');
+        } 
     }
 ?>

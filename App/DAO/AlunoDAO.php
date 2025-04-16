@@ -59,10 +59,21 @@ class AlunoDAO extends DAO {
         
             $stmt = parent::$conexion->prepare($sql);
 
-            $stmt->bindValue(1, $id);
+            $stmt->bindValue(1, $id, parent::PARAM_INT);
             $stmt->execute();
 
-            return $stmt->fetchObject('App\Model\Aluno'); //retorna os dados já estruturados de acordo com o obj passado.
+            $row = $stmt->fetch(parent::FETCH_ASSOC);
+
+            if ($row) {
+                $aluno = new Aluno();
+                $aluno->setId((int)$row['id']);
+                $aluno->setRA((int)$row['ra']);
+                $aluno->setCurso($row['curso']);
+                $aluno->setNome($row['nome']);
+                return $aluno;
+            } else {
+                return null;
+            }
 
         } catch (\Throwable $e) {
             echo "Erro ao tentar buscar aluno por id: " . $e->getMessage();
@@ -77,7 +88,20 @@ class AlunoDAO extends DAO {
             $stmt = parent::$conexion->prepare($sql);
             $stmt->execute();
 
-            return $stmt->fetchAll(parent::FETCH_CLASS, "App\Model\Aluno");
+            $dados = $stmt->fetchAll(parent::FETCH_ASSOC);
+
+            $alunos = [];
+
+            foreach ($dados as $row) {
+                $aluno = new Aluno();
+                $aluno->setId((int)$row['id']);
+                $aluno->setRA((int)$row['ra']);
+                $aluno->setCurso($row['curso']);
+                $aluno->setNome($row['nome']);
+                $alunos[] = $aluno;
+            }
+
+            return $alunos;
 
         } catch (\Throwable $e) {
             echo "Erro ao tentar buscar todos os alunos: " . $e->getMessage();
@@ -87,7 +111,7 @@ class AlunoDAO extends DAO {
 
     public function delete(int $id): bool {
         try {
-            $sql = 'DELETE * FROM aluno WHERE id:?';
+            $sql = 'DELETE FROM aluno WHERE id=?';
         
             $stmt = parent::$conexion->prepare($sql);
 

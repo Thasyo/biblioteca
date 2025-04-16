@@ -9,7 +9,7 @@
         // 2: Indica o diretório pai, valor padrão é 1. Cada número acima, funciona como um cd ..
 
     // 2°: O caminho onde estão as views.
-    define('VIEWS', BASE_DIR . '/View');
+    define('VIEWS', BASE_DIR . '/App/View');
 
     // 3°: Configuração do Banco de Dados.
     $_ENV['db']['host'] = 'localhost:3306';
