@@ -3,6 +3,7 @@
 
     use App\Controller\{
         AlunoController,
+        AutorController,
         InicialController
     };
 
@@ -23,6 +24,18 @@
         
         case "/aluno/deletar";
             AlunoController::deletar();
+            break;
+
+        case "/autores":
+            AutorController::listar();
+            break;
+
+        case "/autor/cadastro":
+            AutorController::cadastro();
+            break;
+
+        case "/autor/deletar":
+            AutorController::deletar();
             break;
 
         default:
