@@ -24,6 +24,9 @@
         <li class="nav-item">
           <a class="nav-link" href="/autores">Autores</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/usuarios">Usuarios</a>
+        </li>
       </ul>
     </div>
   </div>
