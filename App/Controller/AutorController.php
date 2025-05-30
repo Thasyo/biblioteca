@@ -4,9 +4,12 @@ namespace App\Controller;
 
 use App\Model\Autor;
 
-class AutorController {
+class AutorController extends Controller {
 
     public static function cadastro(): void {
+
+        parent::isProtected();
+
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $autor = new Autor();
             $autor->setId(!empty($_POST['id']) ? $_POST['id'] : null);
@@ -30,12 +33,16 @@ class AutorController {
 
     public static function listar(): void {
         //echo "Listagem de autores";
+        parent::isProtected();
         $autor = new Autor();
         $lista = $autor->getAll();
         include VIEWS . '/Autor/lista_autor.php';
     }
 
     public static function deletar(): void {
+
+        parent::isProtected();
+
         $aluno = new Autor();
 
         $aluno->delete( (int) $_GET['id']);

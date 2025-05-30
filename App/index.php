@@ -1,5 +1,7 @@
 <?php
 
+    session_start();
+
     use App\Controller\AlunoController;
     use App\Controller\AutorController;
     use App\Controller\CategoriaController;

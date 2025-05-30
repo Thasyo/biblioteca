@@ -3,9 +3,11 @@
     namespace App\Controller;
 
     use App\Model\Aluno;
-    class AlunoController {
+    class AlunoController extends Controller {
 
         public static function cadastro(): void {
+
+            parent::isProtected();
 
             if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 $aluno = new Aluno();
@@ -30,12 +32,16 @@
         
         public static function listar(): void {
             //echo "Listagem de alunos";
+            parent::isProtected();
             $aluno = new Aluno();
             $lista = $aluno->getAll();
             include VIEWS . '/Aluno/lista_aluno.php';
         }
 
         public static function deletar(): void {
+            
+            parent::isProtected();
+
             $aluno = new Aluno();
 
             $aluno->delete( (int) $_GET['id']);

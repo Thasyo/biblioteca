@@ -3,6 +3,7 @@
 
     use App\Controller\{
         InicialController,
+        LoginController,
         AlunoController,
         AutorController,
         CategoriaController,
@@ -17,6 +18,16 @@
         //home
         case "/":
             InicialController::index();
+            break;
+
+        //login
+        case "/login":
+            LoginController::index();
+            break;
+        
+        //logout
+        case "/logout":
+            LoginController::logout();
             break;
 
         //alunos

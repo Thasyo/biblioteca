@@ -22,7 +22,9 @@ class UsuarioDAO extends DAO {
 
             $stmt->bindValue(1, $model->getNome());
             $stmt->bindValue(2, $model->getEmail());
-            $stmt->bindValue(3, $model->getSenha());
+            //criptografando senha antes de salvar.
+            $passwordHash = password_hash($model->getSenha(), PASSWORD_DEFAULT);
+            $stmt->bindValue(3, $passwordHash);
             $stmt->execute();
 
             $model->setId(parent::$conexion->lastInsertId());
@@ -37,13 +39,15 @@ class UsuarioDAO extends DAO {
 
     public function update(Usuario $model): ?Usuario {
         try {
-            $sql = 'UPDATE usuario SET nome=?, email=?, senha? WHERE id=?';
+            $sql = 'UPDATE usuario SET nome=?, email=?, senha=? WHERE id=?';
         
             $stmt = parent::$conexion->prepare($sql);
 
             $stmt->bindValue(1, $model->getNome());
             $stmt->bindValue(2, $model->getEmail());
-            $stmt->bindValue(3, $model->getSenha());
+            //criptografando senha antes de salvar.
+            $passwordHash = password_hash($model->getSenha(), PASSWORD_DEFAULT);
+            $stmt->bindValue(3, $passwordHash);
             $stmt->bindValue(4, $model->getId());
             $stmt->execute();
 

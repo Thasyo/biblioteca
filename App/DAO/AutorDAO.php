@@ -6,9 +6,9 @@ use App\Model\Autor;
 
 class AutorDAO extends DAO {
 
-    public function __construct(){
-        parent::__construct();
-    }
+        public function __construct(){
+            parent::__construct();
+        }
 
     public function save(Autor $model): Autor {
         return $model->getId() == null ? ($this->insert($model)) : ($this->update($model));
