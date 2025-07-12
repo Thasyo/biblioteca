@@ -3,50 +3,66 @@
     namespace App\Controller;
 
     use App\Model\Aluno;
+use Exception;
+
     class AlunoController extends Controller {
+
+        public static function index(): void {
+            parent::isProtected();
+            $model = new Aluno();
+
+            try{
+                $model->getAll();
+            }catch(Exception $e){
+                $model->setError("Ocorreu um erro ao tentar buscar os usuários. Tente novamente mais tarde!");
+            }
+            parent::render("Aluno/lista_aluno.php", $model);
+        }
 
         public static function cadastro(): void {
 
             parent::isProtected();
 
-            if($_SERVER['REQUEST_METHOD'] == 'POST'){
-                $aluno = new Aluno();
-                $aluno->setId(!empty($_POST['id']) ? $_POST['id'] : null);
-                $aluno->setNome($_POST['nome']);
-                $aluno->setRA($_POST['ra']);
-                $aluno->setCurso($_POST['curso']);
-                $aluno->save();
+            $model = new Aluno();
 
-                header("Location: /alunos"); //redireciona para a rota /aluno
+            try {
+                if(parent::isPost()){
+                
+                $model->setId(!empty($_POST['id']) ? $_POST['id'] : null);
+                $model->setNome($_POST['nome']);
+                $model->setRA($_POST['ra']);
+                $model->setCurso($_POST['curso']);
+                $model->save();
 
-            }else{
-                $model = new Aluno();
+                parent::redirect("/alunos"); //redireciona para a rota /aluno
 
-                if(isset($_GET['id'])){
-                    $model = $model->getById((int) $_GET['id']);
+                }else{
+                    if(isset($_GET['id'])){
+                        $model = $model->getById((int) $_GET['id']);
+                    }                    
                 }
-
-                include VIEWS . '/Aluno/form_aluno.php';
+            } catch (Exception $e) {
+                $model->setError($e->getMessage());
             }
-        }
-        
-        public static function listar(): void {
-            //echo "Listagem de alunos";
-            parent::isProtected();
-            $aluno = new Aluno();
-            $lista = $aluno->getAll();
-            include VIEWS . '/Aluno/lista_aluno.php';
+
+            parent::render("Aluno/form_aluno.php", $model);
+            
         }
 
         public static function deletar(): void {
             
             parent::isProtected();
 
-            $aluno = new Aluno();
+            $model = new Aluno();
 
-            $aluno->delete( (int) $_GET['id']);
+            try{
+                $model->delete( (int) $_GET['id']);
+                parent::redirect("/alunos");
+            }catch(Exception $e){
+                $model->setError($e->getMessage());
+            }
 
-            header('Location: /alunos');
+            parent::render("Aluno/lista_aluno.php", $model);
         } 
     }
 ?>

@@ -4,7 +4,7 @@ namespace App\Model;
 
 use App\DAO\AlunoDAO;
 
-class Aluno {
+class Aluno extends Model{
     private ?int $id;
     private ?int $ra;
     private string $curso;
@@ -60,7 +60,7 @@ class Aluno {
     }
 
     public function getAll(): ?array {
-        return new AlunoDAO()->selectAll();
+        return parent::setRows(new AlunoDAO()->selectAll());
     }
 
     public function delete(int $id): bool {

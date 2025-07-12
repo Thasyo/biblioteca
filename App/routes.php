@@ -7,8 +7,8 @@
         AlunoController,
         AutorController,
         CategoriaController,
-        UsuarioController
-
+        UsuarioController,
+        LivroController
     };
 
     $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH); //Pega toda a url até o ponto de interrogação da query string. Isso nos permite fazer o processo de navegação por rota.
@@ -32,7 +32,7 @@
 
         //alunos
         case "/alunos":
-            AlunoController::listar();
+            AlunoController::index();
             break;
 
         case "/aluno/cadastro";
@@ -79,6 +79,18 @@
             break;
         case "/usuario/deletar":
             UsuarioController::deletar();
+            break;
+        
+        //Livros
+        case "/livros":
+            LivroController::listar();
+            break;
+
+        case "/livro/cadastro":
+            LivroController::cadastro();
+            break;
+        case "/livro/deletar":
+            LivroController::deletar();
             break;
 
         //default padrão

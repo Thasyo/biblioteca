@@ -11,6 +11,8 @@
         <?php include VIEWS . '/Includes/menu.php'?>
     </div>
 
+    <div class="m-3 text-danger"><?= $model->getError()?></div>
+
     <form method="post" action="/aluno/cadastro" class="p-5">
 
         <input type="hidden" value="<?= $model->getId() ?>" name="id">

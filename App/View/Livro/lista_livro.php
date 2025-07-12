@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Sistema de Biblioteca - Listagem de Alunos</title>
+    <title>Sistema de Biblioteca - Listagem de Livros</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
   </head>
   <body>
@@ -11,36 +11,37 @@
         <?php include VIEWS . '/Includes/menu.php'?>
     </div>
 
-    <button class="btn btn-success m-3"><a href="/aluno/cadastro" style="all: unset; cursor: pointer;">Novo Aluno</a></button>
-
-    <div class="m-3 text-danger"><?= $model->getError()?></div>
+    <button class="btn btn-success m-3"><a href="/livro/cadastro" style="all: unset; cursor: pointer;">Novo Livro</a></button>
 
     <table class="table">
         <thead>
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">ID</th>
-                <th scope="col">RA</th>
-                <th scope="col">NOME</th>
-                <th scope="col">CURSO</th>
+                <th scope="col">TITULO</th>
+                <th scope="col">ISBN</th>
+                <th scope="col">EDITORA</th>
+                <th scope="col">ANO</th>
             </tr>
         </thead>
         <tbody>
         <?php
-            if (empty($model)) {
-                echo "<tr><td colspan='5'>Nenhum aluno encontrado.</td></tr>";
+            if (empty($lista)) {
+                var_dump($lista);
+                echo "<tr><td colspan='5'>Nenhum livro encontrado.</td></tr>";
             } else {
-                foreach($model->getRows() as $aluno):
+                foreach($lista as $livro):
             ?>
                 <tr>
                     <td class="d-flex gap-2">
-                        <a href="/aluno/cadastro?id=<?= $aluno->getId() ?>" class="btn btn-primary">Detalhes</a>
-                        <a href="/aluno/deletar?id=<?= $aluno->getId() ?>" class="btn btn-danger">Remover</a>
+                        <a href="/livro/cadastro?id=<?= $livro->getId() ?>" class="btn btn-primary">Detalhes</a>
+                        <a href="/livro/deletar?id=<?= $livro->getId() ?>" class="btn btn-danger">Remover</a>
                     </td>
-                    <td><?= $aluno->getId() ?></td>
-                    <td><?= $aluno->getRA() ?></td>
-                    <td><?= $aluno->getNome() ?></td>
-                    <td><?= $aluno->getCurso() ?></td>
+                    <td><?= $livro->getId() ?></td>
+                    <td><?= $livro->getTitulo() ?></td>
+                    <td><?= $livro->getISBN() ?></td>
+                    <td><?= $livro->getEditora() ?></td>
+                    <td><?= $livro->getAno() ?></td>
                 </tr>
             <?php
                 endforeach;
